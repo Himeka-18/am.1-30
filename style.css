@@ -1,0 +1,192 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  /* 暗い青〜少し鮮やかな青〜暗い紫の夜空グラデーション */
+  background: linear-gradient(160deg, #0b1021 0%, #1a2347 45%, #2a1b4e 80%, #150a2a 100%);
+  background-attachment: fixed;
+  color: #e1e6f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* --- 星空と流れ星 --- */
+.stars-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 50%;
+  animation: twinkle var(--duration) infinite ease-in-out;
+  opacity: var(--init-opacity);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--init-opacity); transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 6px rgba(255, 255, 255, 0.8); }
+}
+
+.shooting-star {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(160, 190, 255, 0));
+  filter: drop-shadow(0 0 6px rgba(180, 200, 255, 0.8));
+  animation: tail 2s ease-in-out infinite, shooting 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes shooting {
+  0% { transform: translateX(0) translateY(0) rotate(-35deg); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateX(-600px) translateY(420px) rotate(-35deg); opacity: 0; }
+}
+
+@keyframes tail {
+  0% { width: 0; }
+  30% { width: 120px; }
+  100% { width: 0; }
+}
+
+/* --- レイアウト構造 --- */
+.header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  background: rgba(10, 14, 28, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #f0f3ff;
+  text-shadow: 0 0 10px rgba(160, 180, 255, 0.3);
+}
+
+.clock {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #9aa8c7;
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.view { display: none; }
+.view.active { display: block; }
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(140, 160, 255, 0.2);
+}
+
+.subtitle {
+  color: #9aa8c7;
+  margin-bottom: 32px;
+  font-size: 0.9rem;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+/* --- A（すりガラス） × C（淡い光）カードデザイン --- */
+.card {
+  background: rgba(255, 255, 255, 0.05); /* 透け感 */
+  backdrop-filter: blur(16px);           /* すりガラス処理 */
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;                   /* 丸みのある角 */
+  padding: 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(160, 180, 255, 0.4);  /* 月明かりのような青淡い光 */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(20, 30, 80, 0.4), 0 0 15px rgba(140, 170, 255, 0.25);
+}
+
+.card-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f7ff;
+  margin-bottom: 8px;
+}
+
+.card-desc {
+  display: block;
+  font-size: 0.8rem;
+  color: #9aa8c7;
+  line-height: 1.4;
+}
+
+/* ゲーム表示コンテナ（すりガラス） */
+.back-btn {
+  background: none;
+  border: none;
+  color: #9aa8c7;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 6px 0;
+  transition: color 0.2s;
+}
+
+.back-btn:hover {
+  color: #ffffff;
+}
+
+.game-container {
+  background: rgba(15, 20, 40, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
