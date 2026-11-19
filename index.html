@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>am.1:30</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 星空と流れ星の生成用コンテナ（聖域） -->
+  <div id="stars-container" class="stars-container"></div>
+
+  <!-- スマホ縦向き警告（04. Color Tile プレイ時のみ有効化） -->
+  <div id="rotate-device-hint">
+    <div class="rotate-content">
+      <div class="phone-icon">📱</div>
+      <p>快適にプレイするため<br>画面を横向きにしてください</p>
+    </div>
+  </div>
+
+  <!-- 上のバー（左側にタイトルとサブタイトル） -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="logo">am.1:30</div>
+      <div class="header-subtitle">夜長に遊ぶ、静かな20のミニゲーム</div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツエリア -->
+  <main class="container">
+    <!-- 中央の大きめデジタル時計（タップでプレイ時間表示） -->
+    <section id="clock-section" class="clock-section">
+      <button id="digital-clock" class="clock-display" type="button" title="タップしてプレイ時間を確認">--:--</button>
+      <p class="clock-hint">時計をタップして記録を見る</p>
+    </section>
+
+    <!-- ゲーム一覧 ＆ 各ゲーム画面の描画先 -->
+    <div id="game-container"></div>
+  </main>
+
+  <!-- 共通モーダル（プレイ時間・ランキング・デイリー確認用） -->
+  <div id="info-modal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title" class="modal-title">記録</h2>
+        <button id="modal-close-btn" class="modal-close-btn" type="button">✕</button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
